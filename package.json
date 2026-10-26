@@ -1,1 +1,8 @@
-{"name":"inscura-plugin-bangumi","version":"1.0.0","private":true,"scripts":{"test":"node --test tests/*.test.cjs"}}
+{
+  "name": "inscura-plugin-bangumi",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.cjs"
+  }
+}

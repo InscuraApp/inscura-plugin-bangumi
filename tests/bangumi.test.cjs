@@ -11,6 +11,7 @@ const movie = { ...tv, id: 102, platform: '剧场版', name: 'Fixture Movie' };
 const person = { id: 201, name:'Fixture Person', type:1, summary:'Biography', career:['seiyu'], birth_year:1989, birth_mon:2, birth_day:25, images:image };
 const episode = (ep, sort = ep, type = 0) => ({id:500+sort,subject_id:101,type,ep,sort,name:'Episode '+ep,name_cn:'第'+ep+'集',duration_seconds:1440,airdate:'2026-01-16'});
 const responses = {
+  'https://bgm.tv/oauth/token_status': {access_token:'fixture-private-token',expires:4102444800},
   '/subjects/400602': {...tv,id:400602},
   '/search/subjects?limit=50&offset=0': {total:2,data:[tv,movie]},
   '/search/persons?limit=50&offset=0': {total:2,data:[person,{...person,id:202,type:2}]},
@@ -26,8 +27,11 @@ function setup(overrides={}, config={}, request={}) {
   vm.runInContext(fs.readFileSync(path.join(root,'index.js'),'utf8'), context);
   const calls=[];
   const ctx={config:{...Object.fromEntries(manifest.config.map(f=>[f.key,f.default])),apiKey:'fixture-private-token',language:'zh-CN',...config},request,log:{warn(){}},app:{version:'0.1.1',locale:'en'},fetch:async(url,opts)=>{
-    assert.equal(opts.headers.Authorization,'Bearer fixture-private-token');
-    assert.match(opts.headers['User-Agent'],/InscuraApp\/inscura-plugin-bangumi\/1\.0\.0/);
+    if(url==='https://bgm.tv/oauth/token_status') {
+      assert.equal(opts.method,'POST');assert.equal(opts.body,'access_token=fixture-private-token');
+      assert.equal(opts.headers.Authorization,undefined);
+    } else assert.equal(opts.headers.Authorization,'Bearer fixture-private-token');
+    assert.match(opts.headers['User-Agent'],/InscuraApp\/inscura-plugin-bangumi\/1\.0\.1/);
     const route=url.replace('https://api.bgm.tv/v0','');calls.push({route,opts});
     const data=Object.hasOwn(overrides,route)?overrides[route]:responses[route];
     if(data instanceof Error)throw data;
@@ -119,5 +123,22 @@ test('five-language config and field declarations; numeric/image fields are not 
 });
 // Portable fixtures for the official toolkit's validate/run/smoke commands.
 if (process.env.WRITE_FIXTURES === '1') {
-  fs.writeFileSync(path.join(root,'fixtures/api.json'),JSON.stringify({requests:Object.entries(responses).map(([route,json])=>({url:'https://api.bgm.tv/v0'+route,method:route.startsWith('/search/')?'POST':'GET',json}))},null,2)+'\n');
+  fs.writeFileSync(path.join(root,'fixtures/api.json'),JSON.stringify({requests:Object.entries(responses).map(([route,json])=>({url:route.startsWith('https:')?route:'https://api.bgm.tv/v0'+route,method:route.startsWith('/search/')||route.endsWith('/token_status')?'POST':'GET',json}))},null,2)+'\n');
 }
+
+test('OAuth status rejects invalid or expired tokens even if wiki GET is cached successfully',async()=>{
+  for(const status of [{__status:401},{__status:429},{__invalid:true},{access_token:'fixture-private-token',expires:1},{access_token:'wrong-token',expires:4102444800},{}]) {
+    const s=setup({'https://bgm.tv/oauth/token_status':status});
+    await assert.rejects(()=>s.plugin.test(s.ctx));
+    assert.ok(!s.calls.some(x=>x.route==='/subjects/400602'));
+  }
+});
+
+test('host underscore and standard hyphen Chinese locales preserve source Chinese titles',async()=>{
+ for(const language of ['zh_CN','zh_TW','zh_Hans','zh-CN','zh-TW','zh']) {
+  const s=setup({}, {language});
+  assert.equal((await s.plugin.searchTv('Anime',s.ctx))[0].title,'动画第二季');
+  const result=await s.plugin.getTvDetail('bangumi','101',s.ctx);
+  assert.equal(result.title,'动画第二季');assert.equal(result.episodes[0].title,'第1集');
+ }
+});

@@ -3,7 +3,7 @@
 const PLUGIN_ID = 'inscura-plugin-bangumi';
 const PROVIDER = 'bangumi';
 const API = 'https://api.bgm.tv/v0';
-const UA = 'InscuraApp/inscura-plugin-bangumi/1.0.0 (https://github.com/InscuraApp/inscura-plugin-bangumi)';
+const UA = 'InscuraApp/inscura-plugin-bangumi/1.0.1 (https://github.com/InscuraApp/inscura-plugin-bangumi)';
 const AUTH_HELP = 'Authorize again at https://inscura.app/auth/bangumi and paste your access token.';
 const str = value => typeof value === 'string' ? value.trim() : '';
 const clean = object => Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined));
@@ -18,7 +18,7 @@ const date = value => {
 };
 const rating = value => typeof value === 'number' && value > 0 && value <= 10 ? value : undefined;
 const unique = values => [...new Set(values.filter(Boolean))];
-const localized = (item, ctx) => (/^zh(?:-|$)/i.test(str(ctx.config.language)) && str(item.name_cn)) || str(item.name) || str(item.name_cn);
+const localized = (item, ctx) => (/^zh(?:[-_]|$)/i.test(str(ctx.config.language)) && str(item.name_cn)) || str(item.name) || str(item.name_cn);
 const enabledImages = ctx => ctx.config.includeImages !== false;
 const image = (item, ctx) => {
   if (!enabledImages(ctx)) return undefined;
@@ -37,9 +37,33 @@ function identity(provider, id) {
 function selected(ctx) {
   if (ctx.request.provider && ctx.request.provider !== PROVIDER) throw new Error('Unsupported Bangumi provider.');
 }
-async function request(ctx, path, body) {
+function accessToken(ctx) {
   const token = str(ctx.config.apiKey);
   if (!token || /[\s\x00-\x1f\x7f]/.test(token)) throw new Error('Missing or invalid access token. ' + AUTH_HELP);
+  return token;
+}
+async function validateToken(ctx) {
+  const token = accessToken(ctx);
+  let response;
+  try {
+    response = await ctx.fetch('https://bgm.tv/oauth/token_status', {
+      method: 'POST', timeoutMs: 30000,
+      headers: { Accept: 'application/json', 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded', 'Cache-Control': 'no-store' },
+      body: 'access_token=' + encodeURIComponent(token),
+    });
+  } catch (_) { throw new Error('Bangumi token verification failed. Please try again later.'); }
+  if (response.status === 429) throw new Error('Bangumi rate limit reached. Please try again later.');
+  if (response.status === 400 || response.status === 401 || response.status === 403) throw new Error('Bangumi authorization failed. ' + AUTH_HELP);
+  if (!response.ok) throw new Error('Bangumi token verification failed (HTTP ' + response.status + ').');
+  let data;
+  try { data = await response.json(); } catch (_) { throw new Error('Bangumi returned invalid token status JSON.'); }
+  if (!data || data.access_token !== token || !Number.isSafeInteger(Number(data.expires)) || Number(data.expires) <= Date.now() / 1000) {
+    throw new Error('Bangumi authorization failed. ' + AUTH_HELP);
+  }
+  // The OAuth grant response may contain a user_id; never return/store it or query a profile.
+}
+async function request(ctx, path, body) {
+  const token = accessToken(ctx);
   let response;
   try {
     response = await ctx.fetch(API + path, {
@@ -176,8 +200,9 @@ async function episodeData(subject, ctx) {
 }
 module.exports = {
   async test(ctx) {
-    // Bangumi validates every supplied Bearer token, including on public reads.
-    // Verify wiki connectivity without requesting the user's profile (/me).
+    // Public wiki GETs may be cached ahead of authentication. Validate the OAuth
+    // grant through the documented POST endpoint instead of querying a profile.
+    await validateToken(ctx);
     entity(await request(ctx, '/subjects/400602'), '400602', 2);
     return { ok: true };
   },

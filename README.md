@@ -11,7 +11,7 @@ Anime series and episodes, animated films, voice actors and creators from Bangum
 
 No App ID or App Secret is distributed with the plugin. The website handles OAuth; no App update or custom callback is needed. The website shows the token's actual expiry. When it expires, authorize again and replace it. There is no automatic refresh or collection/progress synchronization.
 
-**Privacy:** Bangumi currently includes basic account-read access on its consent screen even when only wiki-read is selected in the application settings. This plugin does **not** call `/v0/me` or any account/collection endpoint. Connection testing requests a public subject with the supplied Bearer token; Bangumi rejects invalid/expired tokens before returning public data. OAuth token exchange may return an account identifier, which the website discards along with the refresh token.
+**Privacy:** Bangumi currently includes basic account-read access on its consent screen even when only wiki-read is selected in the application settings. This plugin does **not** call `/v0/me` or any account/collection endpoint. Connection testing first verifies the OAuth grant via `POST https://bgm.tv/oauth/token_status`, discarding all returned data, then checks public wiki connectivity. Public wiki GET responses may be cached ahead of authentication and are not used as proof of token validity. OAuth token exchange may return an account identifier, which the website discards along with the refresh token.
 
 简体中文：在官网授权，复制访问令牌，打开 Inscura「设置 → 插件 → 从 ZIP 安装」，粘贴令牌并启用。到期后重新授权。授权页的账户读取提示由 Bangumi 提供，插件不请求账户资料，也不读写收藏或观看进度。
 
@@ -32,7 +32,7 @@ The scraping language is injected by Inscura as `ctx.config.language`; it is not
 - **Media:** animated theatrical films (`platform=剧场版`), title/original title, summary, release date, score, poster, tags and cast/crew.
 - **Actor:** real individuals only (voice actors and creators); names/aliases, biography, birthday when complete, gender, career and portrait. Companies, groups and fictional characters are excluded from person search.
 - Posters and portraits are enabled by default. Bangumi's size variants describe the same source image, not additional artwork. Missing backdrops, trailers, galleries and episode stills are not invented.
-- Source Chinese names are preferred for Chinese scraping languages, otherwise original names are retained. The API does not translate metadata into five languages. Plugin settings and scrape-field labels do have English, Simplified Chinese, Traditional Chinese, Japanese and Korean text.
+- Source Chinese names are preferred for Chinese scraping languages, including the host codes `zh_CN`/`zh_TW` and standard `zh-CN`/`zh-TW`; otherwise original names are retained. The API does not translate metadata into five languages. Plugin settings and scrape-field labels do have English, Simplified Chinese, Traditional Chinese, Japanese and Korean text.
 
 ## Series and episode numbering
 
@@ -74,12 +74,14 @@ Real credentials must be supplied from a private file **outside this repository*
 
 ## Verification
 
+Version 1.0.1 fixes host underscore-locale compatibility and rejects invalid tokens using the OAuth status endpoint even when public wiki responses are cached.
+
 - Static manifest/provider/field/export/sandbox validation: passed.
-- Synthetic behavior regression: 38 tests passed, covering all three capabilities, defaults/image-off, missing data, errors, provider/type boundaries and TV scope/catalogs.
+- Synthetic behavior regression: 40 tests passed, covering all three capabilities, defaults/image-off, missing data, errors, provider/type boundaries and TV scope/catalogs.
 - Official toolkit fixture search → detail chains: passed for media, TV and actor.
-- Live authenticated plugin chains: not run yet.
-- Image URL retrieval and decoding: not run yet.
-- Inscura installation/QuickJS execution and search/detail: not run yet.
-- Inscura image download/persistence/display and paid translation: not run.
+- Live authenticated plugin chains: passed for Frieren (subject 400602), Your Name (subject 160209) and Kana Hanazawa (person 4765), using user-authorized OAuth on 2026-10-26. No profile or collection endpoint was called.
+- Images: TV/film posters and person portrait returned HTTP 200 and decoded successfully with macOS sips; the native App preview downloader also retrieved all three into the isolated test-library cache and the saved bytes decoded successfully.
+- Inscura 0.1.1, macOS x86_64 development build: ZIP installation, enable/connection test and all three real search → detail chains passed through the Tauri Bridge and native QuickJS runtime. Chinese titles were verified with the host’s `zh_CN` setting and translation disabled. Second-season subject 515759 mapped its first episode to S01E01 (not episode 29).
+- Full metadata application to user media, persistent artwork assignment/display, Windows runtime and paid translation: not run. Native image verification covers the preview cache, not assignment to a media record.
 
 Final archive checks and SHA-256 are recorded in the release report outside the archive.

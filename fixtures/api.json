@@ -1,6 +1,14 @@
 {
   "requests": [
     {
+      "url": "https://bgm.tv/oauth/token_status",
+      "method": "POST",
+      "json": {
+        "access_token": "fixture-private-token",
+        "expires": 4102444800
+      }
+    },
+    {
       "url": "https://api.bgm.tv/v0/subjects/400602",
       "method": "GET",
       "json": {
