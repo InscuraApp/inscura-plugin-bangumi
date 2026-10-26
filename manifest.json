@@ -1,0 +1,560 @@
+{
+  "id": "inscura-plugin-bangumi",
+  "name": "Bangumi 番组计划",
+  "version": "1.0.0",
+  "description": "Bangumi anime series, animated films, voice actors and creators. Authorize on inscura.app, then paste your access token.",
+  "author": "InscuraApp",
+  "homepage": "https://github.com/InscuraApp/inscura-plugin-bangumi",
+  "apiVersion": 1,
+  "entry": "index.js",
+  "capabilities": [
+    "media",
+    "tv",
+    "actor"
+  ],
+  "providers": {
+    "media": [
+      {
+        "id": "bangumi",
+        "label": {
+          "en": "Bangumi",
+          "zh-CN": "Bangumi",
+          "zh-TW": "Bangumi",
+          "ja": "Bangumi",
+          "ko": "Bangumi"
+        }
+      }
+    ],
+    "tv": [
+      {
+        "id": "bangumi",
+        "label": {
+          "en": "Bangumi",
+          "zh-CN": "Bangumi",
+          "zh-TW": "Bangumi",
+          "ja": "Bangumi",
+          "ko": "Bangumi"
+        }
+      }
+    ],
+    "actor": [
+      {
+        "id": "bangumi",
+        "label": {
+          "en": "Bangumi",
+          "zh-CN": "Bangumi",
+          "zh-TW": "Bangumi",
+          "ja": "Bangumi",
+          "ko": "Bangumi"
+        }
+      }
+    ]
+  },
+  "config": [
+    {
+      "key": "apiKey",
+      "type": "password",
+      "required": true,
+      "default": "",
+      "label": {
+        "en": "Access token",
+        "zh-CN": "访问令牌",
+        "zh-TW": "存取權杖",
+        "ja": "アクセストークン",
+        "ko": "액세스 토큰"
+      },
+      "placeholder": {
+        "en": "Paste your token",
+        "zh-CN": "粘贴你的访问令牌",
+        "zh-TW": "貼上你的存取權杖",
+        "ja": "トークンを貼り付け",
+        "ko": "토큰 붙여넣기"
+      },
+      "help": {
+        "en": "Authorize at https://inscura.app/auth/bangumi, then paste the access token here. Reauthorize after it expires. No App ID or App Secret is required.",
+        "zh-CN": "在 https://inscura.app/auth/bangumi 完成授权，将访问令牌粘贴到这里。到期后重新授权，无需填写 App ID 或 App Secret。",
+        "zh-TW": "在 https://inscura.app/auth/bangumi 完成授權，將存取權杖貼到這裡。到期後重新授權，不必填寫 App ID 或 App Secret。",
+        "ja": "https://inscura.app/auth/bangumi で認証し、アクセストークンを貼り付けてください。期限切れ後は再認証してください。App ID や App Secret は不要です。",
+        "ko": "https://inscura.app/auth/bangumi 에서 인증한 뒤 액세스 토큰을 붙여 넣으세요. 만료 후에는 다시 인증하세요. App ID나 App Secret은 필요하지 않습니다."
+      }
+    },
+    {
+      "key": "includeImages",
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "label": {
+        "en": "Include remote images",
+        "zh-CN": "返回远程图片",
+        "zh-TW": "傳回遠端圖片",
+        "ja": "リモート画像を含める",
+        "ko": "원격 이미지 포함"
+      },
+      "help": {
+        "en": "Return available poster, backdrop and photo URLs. Images are core assets; the recommended default is enabled. Source image terms still apply.",
+        "zh-CN": "返回可用的海报、背景图和照片地址。图片是核心资产，推荐默认开启。仍须遵守来源图片使用条款。",
+        "zh-TW": "傳回可用的海報、背景圖和照片網址。圖片是核心資產，建議預設開啟。仍須遵守來源圖片使用條款。",
+        "ja": "利用可能なポスター、背景画像、写真の URL を返します。画像は重要な資産のため既定での有効化を推奨します。提供元の画像利用条件が適用されます。",
+        "ko": "사용 가능한 포스터, 배경 및 사진 URL을 반환합니다. 이미지는 핵심 자산이므로 기본 활성화를 권장합니다. 출처의 이미지 이용 약관이 적용됩니다."
+      }
+    }
+  ],
+  "scrapeFields": {
+    "media": [
+      {
+        "id": "title",
+        "key": "title",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Title",
+          "zh-CN": "标题",
+          "zh-TW": "標題",
+          "ja": "タイトル",
+          "ko": "제목"
+        },
+        "translatable": true
+      },
+      {
+        "id": "originalTitle",
+        "key": "originalTitle",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Original title",
+          "zh-CN": "原始标题",
+          "zh-TW": "原始標題",
+          "ja": "原題",
+          "ko": "원제"
+        },
+        "translatable": false
+      },
+      {
+        "id": "description",
+        "key": "description",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Description",
+          "zh-CN": "简介",
+          "zh-TW": "簡介",
+          "ja": "概要",
+          "ko": "설명"
+        },
+        "translatable": true
+      },
+      {
+        "id": "releaseDate",
+        "key": "releaseDate",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Release date",
+          "zh-CN": "发行日期",
+          "zh-TW": "發行日期",
+          "ja": "公開日",
+          "ko": "공개일"
+        },
+        "translatable": false
+      },
+      {
+        "id": "rating",
+        "key": "rating",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Rating",
+          "zh-CN": "评分",
+          "zh-TW": "評分",
+          "ja": "評価",
+          "ko": "평점"
+        },
+        "translatable": false
+      },
+      {
+        "id": "portraitCover",
+        "key": "portraitCover",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Poster",
+          "zh-CN": "海报",
+          "zh-TW": "海報",
+          "ja": "ポスター",
+          "ko": "포스터"
+        },
+        "translatable": false
+      },
+      {
+        "id": "tags",
+        "key": "tags",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "multi_select",
+        "label": {
+          "en": "Tags",
+          "zh-CN": "标签",
+          "zh-TW": "標籤",
+          "ja": "タグ",
+          "ko": "태그"
+        },
+        "translatable": true
+      },
+      {
+        "id": "cast",
+        "key": "cast",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Cast",
+          "zh-CN": "演员",
+          "zh-TW": "演員",
+          "ja": "出演者",
+          "ko": "출연진"
+        },
+        "translatable": false
+      },
+      {
+        "id": "crew",
+        "key": "crew",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Crew",
+          "zh-CN": "职员",
+          "zh-TW": "工作人員",
+          "ja": "スタッフ",
+          "ko": "제작진"
+        },
+        "translatable": false
+      }
+    ],
+    "tv": [
+      {
+        "id": "title",
+        "key": "title",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Title",
+          "zh-CN": "标题",
+          "zh-TW": "標題",
+          "ja": "タイトル",
+          "ko": "제목"
+        },
+        "translatable": true
+      },
+      {
+        "id": "originalTitle",
+        "key": "originalTitle",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Original title",
+          "zh-CN": "原始标题",
+          "zh-TW": "原始標題",
+          "ja": "原題",
+          "ko": "원제"
+        },
+        "translatable": false
+      },
+      {
+        "id": "description",
+        "key": "description",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Description",
+          "zh-CN": "简介",
+          "zh-TW": "簡介",
+          "ja": "概要",
+          "ko": "설명"
+        },
+        "translatable": true
+      },
+      {
+        "id": "year",
+        "key": "year",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Year",
+          "zh-CN": "年份",
+          "zh-TW": "年份",
+          "ja": "年",
+          "ko": "연도"
+        },
+        "translatable": false
+      },
+      {
+        "id": "firstAired",
+        "key": "firstAired",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "First aired",
+          "zh-CN": "首播日期",
+          "zh-TW": "首播日期",
+          "ja": "初回放送日",
+          "ko": "첫 방영일"
+        },
+        "translatable": false
+      },
+      {
+        "id": "rating",
+        "key": "rating",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Rating",
+          "zh-CN": "评分",
+          "zh-TW": "評分",
+          "ja": "評価",
+          "ko": "평점"
+        },
+        "translatable": false
+      },
+      {
+        "id": "aliases",
+        "key": "aliases",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "multi_select",
+        "label": {
+          "en": "Aliases",
+          "zh-CN": "别名",
+          "zh-TW": "別名",
+          "ja": "別名",
+          "ko": "별칭"
+        },
+        "translatable": true
+      },
+      {
+        "id": "tvTag",
+        "key": "tvTag",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "multi_select",
+        "label": {
+          "en": "Tags",
+          "zh-CN": "标签",
+          "zh-TW": "標籤",
+          "ja": "タグ",
+          "ko": "태그"
+        },
+        "translatable": true
+      },
+      {
+        "id": "tvStudio",
+        "key": "tvStudio",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "multi_select",
+        "label": {
+          "en": "Studios",
+          "zh-CN": "制作公司",
+          "zh-TW": "製作公司",
+          "ja": "制作会社",
+          "ko": "제작사"
+        },
+        "translatable": true
+      },
+      {
+        "id": "network",
+        "key": "network",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "multi_select",
+        "label": {
+          "en": "Networks",
+          "zh-CN": "播出平台",
+          "zh-TW": "播出平台",
+          "ja": "放送局",
+          "ko": "방송사"
+        },
+        "translatable": true
+      },
+      {
+        "id": "cast",
+        "key": "cast",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Cast",
+          "zh-CN": "演员",
+          "zh-TW": "演員",
+          "ja": "出演者",
+          "ko": "출연진"
+        },
+        "translatable": false
+      },
+      {
+        "id": "crew",
+        "key": "crew",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Crew",
+          "zh-CN": "职员",
+          "zh-TW": "工作人員",
+          "ja": "スタッフ",
+          "ko": "제작진"
+        },
+        "translatable": false
+      },
+      {
+        "id": "poster",
+        "key": "poster",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Poster",
+          "zh-CN": "海报",
+          "zh-TW": "海報",
+          "ja": "ポスター",
+          "ko": "포스터"
+        },
+        "translatable": false
+      },
+      {
+        "id": "seasons",
+        "key": "seasons",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Seasons",
+          "zh-CN": "季信息",
+          "zh-TW": "季資訊",
+          "ja": "シーズン情報",
+          "ko": "시즌 정보"
+        },
+        "translatable": true
+      },
+      {
+        "id": "episodes",
+        "key": "episodes",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Episodes and catalogs",
+          "zh-CN": "剧集与目录",
+          "zh-TW": "劇集與目錄",
+          "ja": "エピソードと一覧",
+          "ko": "에피소드 및 목록"
+        },
+        "translatable": true
+      }
+    ],
+    "actor": [
+      {
+        "id": "name",
+        "key": "name",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Name",
+          "zh-CN": "姓名",
+          "zh-TW": "姓名",
+          "ja": "名前",
+          "ko": "이름"
+        },
+        "translatable": true
+      },
+      {
+        "id": "description",
+        "key": "description",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "long_text",
+        "label": {
+          "en": "Biography",
+          "zh-CN": "简介",
+          "zh-TW": "簡介",
+          "ja": "人物紹介",
+          "ko": "인물 소개"
+        },
+        "translatable": true
+      },
+      {
+        "id": "birthday",
+        "key": "birthday",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Birthday",
+          "zh-CN": "生日",
+          "zh-TW": "生日",
+          "ja": "生年月日",
+          "ko": "생년월일"
+        },
+        "translatable": false
+      },
+      {
+        "id": "gender",
+        "key": "gender",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "single_select",
+        "label": {
+          "en": "Gender",
+          "zh-CN": "性别",
+          "zh-TW": "性別",
+          "ja": "性別",
+          "ko": "성별"
+        },
+        "translatable": false
+      },
+      {
+        "id": "avatar",
+        "key": "avatar",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "text",
+        "label": {
+          "en": "Avatar",
+          "zh-CN": "头像",
+          "zh-TW": "頭像",
+          "ja": "プロフィール画像",
+          "ko": "프로필 이미지"
+        },
+        "translatable": false
+      },
+      {
+        "id": "skills",
+        "key": "skills",
+        "provider": "bangumi",
+        "kind": "standard",
+        "fieldType": "multi_select",
+        "label": {
+          "en": "Skills",
+          "zh-CN": "技能",
+          "zh-TW": "技能",
+          "ja": "特技",
+          "ko": "특기"
+        },
+        "translatable": true
+      }
+    ]
+  }
+}

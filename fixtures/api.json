@@ -1,0 +1,415 @@
+{
+  "requests": [
+    {
+      "url": "https://api.bgm.tv/v0/subjects/400602",
+      "method": "GET",
+      "json": {
+        "id": 400602,
+        "type": 2,
+        "platform": "TV",
+        "name": "Fixture Anime II",
+        "name_cn": "动画第二季",
+        "summary": "Overview",
+        "date": "2026-01-16",
+        "images": {
+          "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+        },
+        "rating": {
+          "score": 8.2,
+          "total": 30
+        },
+        "tags": [
+          {
+            "name": "Fantasy"
+          }
+        ],
+        "infobox": [
+          {
+            "key": "别名",
+            "value": [
+              {
+                "v": "Alternate"
+              }
+            ]
+          },
+          {
+            "key": "动画制作",
+            "value": "Studio"
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.bgm.tv/v0/search/subjects?limit=50&offset=0",
+      "method": "POST",
+      "json": {
+        "total": 2,
+        "data": [
+          {
+            "id": 101,
+            "type": 2,
+            "platform": "TV",
+            "name": "Fixture Anime II",
+            "name_cn": "动画第二季",
+            "summary": "Overview",
+            "date": "2026-01-16",
+            "images": {
+              "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+            },
+            "rating": {
+              "score": 8.2,
+              "total": 30
+            },
+            "tags": [
+              {
+                "name": "Fantasy"
+              }
+            ],
+            "infobox": [
+              {
+                "key": "别名",
+                "value": [
+                  {
+                    "v": "Alternate"
+                  }
+                ]
+              },
+              {
+                "key": "动画制作",
+                "value": "Studio"
+              }
+            ]
+          },
+          {
+            "id": 102,
+            "type": 2,
+            "platform": "剧场版",
+            "name": "Fixture Movie",
+            "name_cn": "动画第二季",
+            "summary": "Overview",
+            "date": "2026-01-16",
+            "images": {
+              "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+            },
+            "rating": {
+              "score": 8.2,
+              "total": 30
+            },
+            "tags": [
+              {
+                "name": "Fantasy"
+              }
+            ],
+            "infobox": [
+              {
+                "key": "别名",
+                "value": [
+                  {
+                    "v": "Alternate"
+                  }
+                ]
+              },
+              {
+                "key": "动画制作",
+                "value": "Studio"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.bgm.tv/v0/search/persons?limit=50&offset=0",
+      "method": "POST",
+      "json": {
+        "total": 2,
+        "data": [
+          {
+            "id": 201,
+            "name": "Fixture Person",
+            "type": 1,
+            "summary": "Biography",
+            "career": [
+              "seiyu"
+            ],
+            "birth_year": 1989,
+            "birth_mon": 2,
+            "birth_day": 25,
+            "images": {
+              "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+            }
+          },
+          {
+            "id": 202,
+            "name": "Fixture Person",
+            "type": 2,
+            "summary": "Biography",
+            "career": [
+              "seiyu"
+            ],
+            "birth_year": 1989,
+            "birth_mon": 2,
+            "birth_day": 25,
+            "images": {
+              "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.bgm.tv/v0/subjects/101",
+      "method": "GET",
+      "json": {
+        "id": 101,
+        "type": 2,
+        "platform": "TV",
+        "name": "Fixture Anime II",
+        "name_cn": "动画第二季",
+        "summary": "Overview",
+        "date": "2026-01-16",
+        "images": {
+          "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+        },
+        "rating": {
+          "score": 8.2,
+          "total": 30
+        },
+        "tags": [
+          {
+            "name": "Fantasy"
+          }
+        ],
+        "infobox": [
+          {
+            "key": "别名",
+            "value": [
+              {
+                "v": "Alternate"
+              }
+            ]
+          },
+          {
+            "key": "动画制作",
+            "value": "Studio"
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.bgm.tv/v0/subjects/102",
+      "method": "GET",
+      "json": {
+        "id": 102,
+        "type": 2,
+        "platform": "剧场版",
+        "name": "Fixture Movie",
+        "name_cn": "动画第二季",
+        "summary": "Overview",
+        "date": "2026-01-16",
+        "images": {
+          "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+        },
+        "rating": {
+          "score": 8.2,
+          "total": 30
+        },
+        "tags": [
+          {
+            "name": "Fantasy"
+          }
+        ],
+        "infobox": [
+          {
+            "key": "别名",
+            "value": [
+              {
+                "v": "Alternate"
+              }
+            ]
+          },
+          {
+            "key": "动画制作",
+            "value": "Studio"
+          }
+        ]
+      }
+    },
+    {
+      "url": "https://api.bgm.tv/v0/persons/201",
+      "method": "GET",
+      "json": {
+        "id": 201,
+        "name": "Fixture Person",
+        "type": 1,
+        "summary": "Biography",
+        "career": [
+          "seiyu"
+        ],
+        "birth_year": 1989,
+        "birth_mon": 2,
+        "birth_day": 25,
+        "images": {
+          "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+        }
+      }
+    },
+    {
+      "url": "https://api.bgm.tv/v0/subjects/101/persons",
+      "method": "GET",
+      "json": [
+        {
+          "id": 201,
+          "name": "Fixture Person",
+          "type": 1,
+          "summary": "Biography",
+          "career": [
+            "seiyu"
+          ],
+          "birth_year": 1989,
+          "birth_mon": 2,
+          "birth_day": 25,
+          "images": {
+            "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+          },
+          "relation": "导演"
+        },
+        {
+          "id": 202,
+          "type": 2,
+          "name": "Studio",
+          "relation": "动画制作"
+        }
+      ]
+    },
+    {
+      "url": "https://api.bgm.tv/v0/subjects/102/persons",
+      "method": "GET",
+      "json": [
+        {
+          "id": 201,
+          "name": "Fixture Person",
+          "type": 1,
+          "summary": "Biography",
+          "career": [
+            "seiyu"
+          ],
+          "birth_year": 1989,
+          "birth_mon": 2,
+          "birth_day": 25,
+          "images": {
+            "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+          },
+          "relation": "导演"
+        }
+      ]
+    },
+    {
+      "url": "https://api.bgm.tv/v0/subjects/101/characters",
+      "method": "GET",
+      "json": [
+        {
+          "id": 301,
+          "name": "Hero",
+          "actors": [
+            {
+              "id": 201,
+              "name": "Fixture Person",
+              "type": 1,
+              "summary": "Biography",
+              "career": [
+                "seiyu"
+              ],
+              "birth_year": 1989,
+              "birth_mon": 2,
+              "birth_day": 25,
+              "images": {
+                "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://api.bgm.tv/v0/subjects/102/characters",
+      "method": "GET",
+      "json": [
+        {
+          "id": 301,
+          "name": "Hero",
+          "actors": [
+            {
+              "id": 201,
+              "name": "Fixture Person",
+              "type": 1,
+              "summary": "Biography",
+              "career": [
+                "seiyu"
+              ],
+              "birth_year": 1989,
+              "birth_mon": 2,
+              "birth_day": 25,
+              "images": {
+                "large": "https://lain.bgm.tv/pic/cover/l/fixture.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://api.bgm.tv/v0/episodes?subject_id=101&limit=200&offset=0",
+      "method": "GET",
+      "json": {
+        "total": 4,
+        "data": [
+          {
+            "id": 529,
+            "subject_id": 101,
+            "type": 0,
+            "ep": 1,
+            "sort": 29,
+            "name": "Episode 1",
+            "name_cn": "第1集",
+            "duration_seconds": 1440,
+            "airdate": "2026-01-16"
+          },
+          {
+            "id": 530,
+            "subject_id": 101,
+            "type": 0,
+            "ep": 2,
+            "sort": 30,
+            "name": "Episode 2",
+            "name_cn": "第2集",
+            "duration_seconds": 1440,
+            "airdate": "2026-01-16"
+          },
+          {
+            "id": 500,
+            "subject_id": 101,
+            "type": 1,
+            "ep": 0,
+            "sort": 0,
+            "name": "Episode 0",
+            "name_cn": "第0集",
+            "duration_seconds": 1440,
+            "airdate": "2026-01-16"
+          },
+          {
+            "id": 501,
+            "subject_id": 101,
+            "type": 2,
+            "ep": 0,
+            "sort": 1,
+            "name": "Episode 0",
+            "name_cn": "第0集",
+            "duration_seconds": 1440,
+            "airdate": "2026-01-16"
+          }
+        ]
+      }
+    }
+  ]
+}
