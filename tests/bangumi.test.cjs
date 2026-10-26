@@ -31,7 +31,7 @@ function setup(overrides={}, config={}, request={}) {
       assert.equal(opts.method,'POST');assert.equal(opts.body,'access_token=fixture-private-token');
       assert.equal(opts.headers.Authorization,undefined);
     } else assert.equal(opts.headers.Authorization,'Bearer fixture-private-token');
-    assert.match(opts.headers['User-Agent'],/InscuraApp\/inscura-plugin-bangumi\/1\.0\.1/);
+    assert.match(opts.headers['User-Agent'],/InscuraApp\/inscura-plugin-bangumi\/0\.0\.1/);
     const route=url.replace('https://api.bgm.tv/v0','');calls.push({route,opts});
     const data=Object.hasOwn(overrides,route)?overrides[route]:responses[route];
     if(data instanceof Error)throw data;

@@ -3,7 +3,7 @@
 const PLUGIN_ID = 'inscura-plugin-bangumi';
 const PROVIDER = 'bangumi';
 const API = 'https://api.bgm.tv/v0';
-const UA = 'InscuraApp/inscura-plugin-bangumi/1.0.1 (https://github.com/InscuraApp/inscura-plugin-bangumi)';
+const UA = 'InscuraApp/inscura-plugin-bangumi/0.0.1 (https://github.com/InscuraApp/inscura-plugin-bangumi)';
 const AUTH_HELP = 'Authorize again at https://inscura.app/auth/bangumi and paste your access token.';
 const str = value => typeof value === 'string' ? value.trim() : '';
 const clean = object => Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined));

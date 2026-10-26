@@ -74,7 +74,14 @@ Real credentials must be supplied from a private file **outside this repository*
 
 ## Verification
 
-Version 1.0.1 fixes host underscore-locale compatibility and rejects invalid tokens using the OAuth status endpoint even when public wiki responses are cached.
+Version 0.0.1 includes host underscore-locale compatibility and OAuth token-status validation. The release version was reset to 0.0.1; scraper behavior is unchanged from the verified implementation.
+
+| Level | Status | Evidence / remaining gap |
+| --- | --- | --- |
+| Static | passed | Manifest, exports and sandbox validation. |
+| Fixtures | passed | 40 regression tests and three capability chains. |
+| Live API | passed | Authorized real-service checks on 2026-10-26, before the version reset. |
+| In-app | partial | macOS development-build checks below; the repackaged 0.0.1 archive has not been reinstalled in the App. |
 
 - Static manifest/provider/field/export/sandbox validation: passed.
 - Synthetic behavior regression: 40 tests passed, covering all three capabilities, defaults/image-off, missing data, errors, provider/type boundaries and TV scope/catalogs.
@@ -82,6 +89,7 @@ Version 1.0.1 fixes host underscore-locale compatibility and rejects invalid tok
 - Live authenticated plugin chains: passed for Frieren (subject 400602), Your Name (subject 160209) and Kana Hanazawa (person 4765), using user-authorized OAuth on 2026-10-26. No profile or collection endpoint was called.
 - Images: TV/film posters and person portrait returned HTTP 200 and decoded successfully with macOS sips; the native App preview downloader also retrieved all three into the isolated test-library cache and the saved bytes decoded successfully.
 - Inscura 0.1.1, macOS x86_64 development build: ZIP installation, enable/connection test and all three real search → detail chains passed through the Tauri Bridge and native QuickJS runtime. Chinese titles were verified with the host’s `zh_CN` setting and translation disabled. Second-season subject 515759 mapped its first episode to S01E01 (not episode 29).
-- Full metadata application to user media, persistent artwork assignment/display, Windows runtime and paid translation: not run. Native image verification covers the preview cache, not assignment to a media record.
+- Additional isolated-library verification covered five anime subjects (Frieren, Frieren season 2, Attack on Titan, Bocchi the Rock! and Demon Slayer), two films (Your Name and Spirited Away), 101 catalog episodes, 10 bound episode files and 21 people. Show/season posters, actor portraits and cast links were saved and displayed. Twelve generated eight-second test videos supplied episode/film previews; these previews are local frame captures, not Bangumi episode stills.
+- Real user media, Windows runtime and paid translation: not run. Temporary libraries, generated videos, screenshots and private credentials were removed after verification.
 
-Final archive checks and SHA-256 are recorded in the release report outside the archive.
+The final archive is extracted and validated separately, including fixture search → detail checks for all three capabilities. Its SHA-256 is supplied with the release.

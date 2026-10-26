@@ -1,7 +1,7 @@
 {
   "id": "inscura-plugin-bangumi",
   "name": "Bangumi 番组计划",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "Bangumi anime series, animated films, voice actors and creators. Authorize on inscura.app, then paste your access token.",
   "author": "InscuraApp",
   "homepage": "https://github.com/InscuraApp/inscura-plugin-bangumi",
